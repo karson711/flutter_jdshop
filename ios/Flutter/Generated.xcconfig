@@ -1,7 +1,7 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=/Users/anfa/Documents/flutter
-FLUTTER_APPLICATION_PATH=/Users/anfa/Flutter学习/flutter_jdshop
-FLUTTER_TARGET=lib/main.dart
+FLUTTER_APPLICATION_PATH=/Users/anfa/flutter_jdshop
+FLUTTER_TARGET=/Users/anfa/flutter_jdshop/lib/main.dart
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build/ios
 FLUTTER_FRAMEWORK_DIR=/Users/anfa/Documents/flutter/bin/cache/artifacts/engine/ios
