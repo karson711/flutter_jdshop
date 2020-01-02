@@ -27,7 +27,7 @@ class _TabsState extends State<Tabs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('jdshop'),
+        title: Text('京东商城'),
       ),
       body: PageView(
         children: this._pagesList,
