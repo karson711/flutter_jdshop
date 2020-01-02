@@ -38,6 +38,22 @@ class _ProductListPageState extends State<ProductListPage> {
   //是否有数据
   bool _hasMore = true;
 
+  /*二级导航数据*/
+  List _subHeaderList = [
+    {
+      "id": 1,
+      "title": "综合",
+      "fileds": "all",
+      "sort":
+          -1, //排序     升序：price_1     {price:1}        降序：price_-1   {price:-1}
+    },
+    {"id": 2, "title": "销量", "fileds": 'salecount', "sort": -1},
+    {"id": 3, "title": "价格", "fileds": 'price', "sort": -1},
+    {"id": 4, "title": "筛选"}
+  ];
+  //二级导航选中判断
+  int _selectHeaderId = 1;
+
   @override
   void initState() {
     super.initState();
@@ -80,6 +96,34 @@ class _ProductListPageState extends State<ProductListPage> {
         this._produceList.addAll(productList.result);
         this._page++;
         this.flag = true;
+      });
+    }
+  }
+
+  void _subHeaderChange(id) {
+    if (id == 4) {
+      _scaffoldKey.currentState.openEndDrawer();
+      setState(() {
+        this._selectHeaderId = id;
+      });
+    } else {
+      setState(() {
+        this._selectHeaderId = id;
+        this._sort =
+            '${this._subHeaderList[id - 1]["fileds"]}_${this._subHeaderList[id - 1]["sort"]}';
+        //重置分页
+        this._page = 1;
+        //重置数据
+        this._produceList = [];
+        //回到顶部
+        _scrollController.jumpTo(0);
+        //重置_hasMore
+        this._hasMore = true;
+        //改变sort排序
+        this._subHeaderList[id - 1]["sort"] =
+            this._subHeaderList[id - 1]["sort"] * -1;
+
+        this._getProductList();
       });
     }
   }
@@ -179,6 +223,23 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
+  Widget _showIcon(id) {
+    if (id == 2 || id == 3) {
+      if (this._subHeaderList[id - 1]['sort'] == 1) {
+        return Icon(Icons.arrow_drop_down,
+            color: this._selectHeaderId == id
+                ? Colors.red
+                : Colors.black54);
+      } else {
+        return Icon(Icons.arrow_drop_up,
+            color: this._selectHeaderId == id
+                ? Colors.red
+                : Colors.black54);
+      }
+    }
+    return Text('');
+  }
+
   Widget _subHeaderWidget() {
     return Positioned(
       top: 0,
@@ -192,59 +253,31 @@ class _ProductListPageState extends State<ProductListPage> {
                 bottom: BorderSide(
                     width: 1, color: Color.fromRGBO(233, 233, 233, 0.9)))),
         child: Row(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  child: Text(
-                    '综合',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  child: Text(
-                    '销量',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  child: Text(
-                    '价格',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
+          children: this._subHeaderList.map((value) {
+            return Expanded(
               child: InkWell(
                 onTap: () {
-                  print('筛选');
-                  _scaffoldKey.currentState.openEndDrawer();
+                  this._subHeaderChange(value['id']);
                 },
                 child: Container(
-                  child: Text(
-                    '筛选',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black54),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        value['title'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: this._selectHeaderId == value['id']
+                                ? Colors.red
+                                : Colors.black54),
+                      ),
+                      _showIcon(value['id'])
+                    ],
                   ),
                 ),
               ),
-            )
-          ],
+            );
+          }).toList(),
         ),
       ),
     );
