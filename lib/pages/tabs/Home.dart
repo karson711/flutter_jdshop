@@ -13,11 +13,15 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   List _focusData = [];
   List _hotProductList = [];
   List _bestProductList = [];
 
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -147,8 +151,7 @@ class _HomePageState extends State<HomePage> {
   Widget _recProductListWidget() {
     var itemWidth = (ScreenAdapter.getScreenWidthDP() -
             3 * ScreenAdapter.width(10) -
-            4 * ScreenAdapter.width(1)) /
-        2;
+            4 * ScreenAdapter.width(1)) /2;
 
     return Container(
       padding: EdgeInsets.all(ScreenAdapter.width(10)),
@@ -234,4 +237,6 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
+  
 }

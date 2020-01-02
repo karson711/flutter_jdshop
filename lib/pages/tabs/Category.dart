@@ -11,10 +11,15 @@ class CategoryPage extends StatefulWidget {
   _CategoryPageState createState() => _CategoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryPageState extends State<CategoryPage>
+    with AutomaticKeepAliveClientMixin {
   int _selectIndex = 0;
   List _leftList = [];
   List _rightList = [];
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -41,7 +46,6 @@ class _CategoryPageState extends State<CategoryPage> {
   void _getRightListData(pid) async {
     var api = '${Config.domain}api/pcate?pid=${pid}';
     var result = await Dio().get(api);
-    print(result);
     var rightList = CateModel.fromJson(result.data);
     setState(() {
       this._rightList = rightList.result;
@@ -108,23 +112,28 @@ class _CategoryPageState extends State<CategoryPage> {
                 mainAxisSpacing: 10),
             itemCount: this._rightList.length,
             itemBuilder: (context, index) {
-              
               String pic = this._rightList[index].pic;
-              pic = Config.domain+pic.replaceAll('\\', '/');
+              pic = Config.domain + pic.replaceAll('\\', '/');
 
-              return Column(
-                children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 1 / 1,
-                    child: Image.network(
-                        '${pic}',
-                        fit: BoxFit.cover),
+              return InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/productList',
+                      arguments: {'cid': this._rightList[index].sId});
+                },
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: Image.network('${pic}', fit: BoxFit.cover),
+                      ),
+                      Container(
+                        height: ScreenAdapter.height(28),
+                        child: Text('${this._rightList[index].title}'),
+                      )
+                    ],
                   ),
-                  Container(
-                    height: ScreenAdapter.height(28),
-                    child: Text('${this._rightList[index].title}'),
-                  )
-                ],
+                ),
               );
             },
           ),
