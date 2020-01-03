@@ -13,19 +13,23 @@ class ScreenAdapter {
     return ScreenUtil.getInstance().setWidth(value);
   }
 
-  static getScreenHeightDP() {
+  static getScreenHeight() {
     return ScreenUtil.screenHeightDp;
   }
 
-  static getScreenWidthDP() {
+  static getScreenWidth() {
     return ScreenUtil.screenWidthDp;
   }
 
-  static getScreenHeightPX() {
+  static getScreenPXHeight() {
     return ScreenUtil.screenHeight;
   }
 
-  static getScreenWidthPX() {
+  static getScreenPXWidth() {
     return ScreenUtil.screenWidth;
+  }
+
+  static size(double fontSize) {
+    return ScreenUtil.getInstance().setSp(fontSize);
   }
 }

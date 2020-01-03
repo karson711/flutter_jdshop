@@ -13,7 +13,12 @@ class Tabs extends StatefulWidget {
 
 class _TabsState extends State<Tabs> {
   int _currentIndex = 0;
-  List<Widget> _pagesList = [HomePage(), CategoryPage(), CartPage(), UserPage()];
+  List<Widget> _pagesList = [
+    HomePage(),
+    CategoryPage(),
+    CartPage(),
+    UserPage()
+  ];
   PageController _pageController;
 
   @override
@@ -26,12 +31,19 @@ class _TabsState extends State<Tabs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('京东商城'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('京东商城'),
+      // ),
       body: PageView(
         children: this._pagesList,
         controller: this._pageController,
+        //监听切换
+        onPageChanged: (index) {
+          setState(() {
+            this._currentIndex = index;
+          });
+        },
+        physics: NeverScrollableScrollPhysics(),//禁止pageView滑动
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: this._currentIndex,

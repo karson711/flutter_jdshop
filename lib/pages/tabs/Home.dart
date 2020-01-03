@@ -13,7 +13,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   List _focusData = [];
   List _hotProductList = [];
   List _bestProductList = [];
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -149,9 +150,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   //推荐商品
   Widget _recProductListWidget() {
-    var itemWidth = (ScreenAdapter.getScreenWidthDP() -
+    var itemWidth = (ScreenAdapter.getScreenWidth() -
             3 * ScreenAdapter.width(10) -
-            4 * ScreenAdapter.width(1)) /2;
+            4 * ScreenAdapter.width(1)) /
+        2;
 
     return Container(
       padding: EdgeInsets.all(ScreenAdapter.width(10)),
@@ -161,7 +163,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
         children: this._bestProductList.map((value) {
           String sPic = value.sPic;
           sPic = Config.domain + sPic.replaceAll('\\', '/');
-          
+
           return Container(
             padding: EdgeInsets.all(ScreenAdapter.width(10)),
             width: itemWidth,
@@ -225,18 +227,52 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
 
-    return ListView(
-      children: <Widget>[
-        _swiperWidget(),
-        SizedBox(height: ScreenAdapter.height(20)),
-        _titleWidget('猜你喜欢'),
-        SizedBox(height: ScreenAdapter.height(20)),
-        _hotProductListWidget(),
-        _titleWidget('热门推荐'),
-        _recProductListWidget(),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.center_focus_weak, size: 28, color: Colors.black87),
+          onPressed: null,
+        ),
+        title: InkWell(
+          child: Container(
+            height: ScreenAdapter.height(68),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Color.fromRGBO(233, 233, 233, 0.8)),
+            padding: EdgeInsets.only(left: ScreenAdapter.width(10)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.search),
+                Text(
+                  '笔记本',
+                  style: TextStyle(fontSize: ScreenAdapter.size(28)),
+                )
+              ],
+            ),
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, '/search');
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.message, size: 28, color: Colors.black87),
+            onPressed: null,
+          )
+        ],
+      ),
+      body: ListView(
+        children: <Widget>[
+          _swiperWidget(),
+          SizedBox(height: ScreenAdapter.height(20)),
+          _titleWidget('猜你喜欢'),
+          SizedBox(height: ScreenAdapter.height(20)),
+          _hotProductListWidget(),
+          _titleWidget('热门推荐'),
+          _recProductListWidget(),
+        ],
+      ),
     );
   }
-
-  
 }

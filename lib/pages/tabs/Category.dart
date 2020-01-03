@@ -154,20 +154,25 @@ class _CategoryPageState extends State<CategoryPage>
     ScreenAdapter.init(context);
 
     //左侧宽度
-    var leftWidth = ScreenAdapter.getScreenWidthDP() / 4;
+    var leftWidth = ScreenAdapter.getScreenWidth() / 4;
     //右侧每一项宽度=（总宽度-左侧宽度-GridView外侧元素左右的Padding值-GridView中间的间距）/3
     var rightItemWidth =
-        (ScreenAdapter.getScreenWidthDP() - leftWidth - 20 - 20) / 3;
+        (ScreenAdapter.getScreenWidth() - leftWidth - 20 - 20) / 3;
     //获取计算后的宽度
     rightItemWidth = ScreenAdapter.width(rightItemWidth);
     //获取计算后的高度
     var rightItemHeight = rightItemWidth + ScreenAdapter.height(28);
 
-    return Row(
-      children: <Widget>[
-        this._leftCateWidget(leftWidth),
-        this._rightCateWidget(rightItemWidth, rightItemHeight)
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('分类'),
+      ),
+      body: Row(
+        children: <Widget>[
+          this._leftCateWidget(leftWidth),
+          this._rightCateWidget(rightItemWidth, rightItemHeight)
+        ],
+      ),
     );
   }
 }

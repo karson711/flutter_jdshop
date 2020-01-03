@@ -17,6 +17,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       onGenerateRoute: prefix0.onGenerateRoute,
+      theme: ThemeData(
+        primaryColor: Colors.white
+      ),
     );
   }
 }
