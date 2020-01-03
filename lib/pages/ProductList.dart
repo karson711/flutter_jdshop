@@ -65,9 +65,9 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   void initState() {
     super.initState();
-    this._cid = widget.arguments["cid"];
-    this._keyWords = widget.arguments["keyWords"];
-    this._initKeywordsController.text = widget.arguments["keyWords"];
+    this._cid = widget.arguments["cid"]==null?'':widget.arguments["cid"];
+    this._keyWords = widget.arguments["keyWords"]==null?'':widget.arguments["keyWords"];
+    this._initKeywordsController.text = this._keyWords;
 
     this._getProductList();
 
