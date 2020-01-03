@@ -34,6 +34,8 @@ class _SearchPageState extends State<SearchPage> {
     '唇彩唇蜜'
   ];
 
+  String _keyWords;
+
   Widget _topTitleWidget(context, title) {
     return Container(
       padding: EdgeInsets.only(left: ScreenAdapter.width(10)),
@@ -65,6 +67,38 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  //历史记录
+  Widget _historyRecordWidget() {
+    return Container(
+      child: Column(
+        children: this._historyList.map((value) {
+          return Container(
+            padding: EdgeInsets.all(ScreenAdapter.width(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[Text('$value'), Divider()],
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  //icon和文字组成的按钮
+  Widget _iconTitleWidget(Icon icon, String title) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      height: ScreenAdapter.height(64),
+      decoration: BoxDecoration(
+          border:
+              Border.all(color: Colors.black87, width: ScreenAdapter.width(1))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[icon, Text('$title')],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
@@ -79,6 +113,9 @@ class _SearchPageState extends State<SearchPage> {
               color: Color.fromRGBO(233, 233, 233, 0.8)),
           child: TextField(
             autofocus: false,
+            onChanged: (value) {
+              this._keyWords = value;
+            },
             decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderSide: BorderSide.none,
@@ -94,7 +131,14 @@ class _SearchPageState extends State<SearchPage> {
                 children: <Widget>[Text('搜索')],
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              if (this._keyWords != null) {
+                Navigator.pushReplacementNamed(context, '/productList',
+                    arguments: {"keyWords": this._keyWords});
+              }else{
+                print('请输入要搜索的内容');
+              }
+            },
           )
         ],
       ),
@@ -107,18 +151,13 @@ class _SearchPageState extends State<SearchPage> {
             this._hotSearchWidget(),
             SizedBox(height: ScreenAdapter.height(20)),
             this._topTitleWidget(context, '历史记录'),
-            Container(
-              child: Column(
-                children: this._historyList.map((value) {
-                  return Container(
-                    padding: EdgeInsets.all(ScreenAdapter.width(10)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[Text('$value'), Divider()],
-                    ),
-                  );
-                }).toList(),
-              ),
+            this._historyRecordWidget(),
+            SizedBox(height: ScreenAdapter.height(80)),
+            InkWell(
+              child: this._iconTitleWidget(Icon(Icons.delete), '清空历史记录'),
+              onTap: () {
+                print('清空历史记录');
+              },
             )
           ],
         ),

@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import '../services/ScreenAdapter.dart';
 import '../model/ProductModel.dart';
 import '../widget/LoadingWIdget.dart';
+import '../widget/EmptyDataWidget.dart';
 
 class ProductListPage extends StatefulWidget {
   Map arguments;
@@ -37,6 +38,9 @@ class _ProductListPageState extends State<ProductListPage> {
 
   //是否有数据
   bool _hasMore = true;
+  
+  //是否有搜索数据
+  bool _hasData = true;
 
   /*二级导航数据*/
   List _subHeaderList = [
@@ -53,10 +57,18 @@ class _ProductListPageState extends State<ProductListPage> {
   ];
   //二级导航选中判断
   int _selectHeaderId = 1;
+  var _cid;
+  var _keyWords;
+
+  var _initKeywordsController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    this._cid = widget.arguments["cid"];
+    this._keyWords = widget.arguments["keyWords"];
+    this._initKeywordsController.text = widget.arguments["keyWords"];
+
     this._getProductList();
 
     //监听滚动条滚动事件
@@ -78,13 +90,31 @@ class _ProductListPageState extends State<ProductListPage> {
       this.flag = false;
     });
 
-    var api =
-        '${Config.domain}api/plist?cid=${widget.arguments["cid"]}&page=${this._page}&sort=${this._sort}&pageSize=${this._pageSize}';
+    var api;
+
+    if (widget.arguments["keyWords"] == null) {
+      api =
+        '${Config.domain}api/plist?cid=${widget.arguments["cid"]}&search=${this._keyWords}&page=${this._page}&sort=${this._sort}&pageSize=${this._pageSize}';
+    }else{
+      api =
+        '${Config.domain}api/plist?search=${this._keyWords}&page=${this._page}&sort=${this._sort}&pageSize=${this._pageSize}';
+    }
     print(api);
     var result = await Dio().get(api);
     var productList = new ProductModel.fromJson(result.data);
 
     print(productList.result.length);
+
+    if (productList.result.length == 0 && this._page == 1) {
+      setState(() {
+        this._hasData = false;
+      });
+    }else{
+      setState(() {
+        this._hasData = true;
+      });
+    }
+
     if (productList.result.length < this._pageSize) {
       setState(() {
         this._produceList.addAll(productList.result);
@@ -107,6 +137,10 @@ class _ProductListPageState extends State<ProductListPage> {
         this._selectHeaderId = id;
       });
     } else {
+      //回到顶部
+        if (this._produceList.length > 0) {
+          _scrollController.jumpTo(0);
+        }
       setState(() {
         this._selectHeaderId = id;
         this._sort =
@@ -115,10 +149,11 @@ class _ProductListPageState extends State<ProductListPage> {
         this._page = 1;
         //重置数据
         this._produceList = [];
-        //回到顶部
-        _scrollController.jumpTo(0);
+        
         //重置_hasMore
         this._hasMore = true;
+        //重置_hasData
+        this._hasData = true;
         //改变sort排序
         this._subHeaderList[id - 1]["sort"] =
             this._subHeaderList[id - 1]["sort"] * -1;
@@ -227,14 +262,10 @@ class _ProductListPageState extends State<ProductListPage> {
     if (id == 2 || id == 3) {
       if (this._subHeaderList[id - 1]['sort'] == 1) {
         return Icon(Icons.arrow_drop_down,
-            color: this._selectHeaderId == id
-                ? Colors.red
-                : Colors.black54);
+            color: this._selectHeaderId == id ? Colors.red : Colors.black54);
       } else {
         return Icon(Icons.arrow_drop_up,
-            color: this._selectHeaderId == id
-                ? Colors.red
-                : Colors.black54);
+            color: this._selectHeaderId == id ? Colors.red : Colors.black54);
       }
     }
     return Text('');
@@ -290,16 +321,49 @@ class _ProductListPageState extends State<ProductListPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('商品列表'),
-        actions: <Widget>[Text('')],
+        title: Container(
+          padding: EdgeInsets.all(10),
+          height: ScreenAdapter.height(68),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Color.fromRGBO(233, 233, 233, 0.8)),
+          child: TextField(
+            autofocus: false,
+            controller: this._initKeywordsController,
+            onChanged: (value) {
+              this._keyWords = value;
+            },
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(30))),
+          ),
+        ),
+        actions: <Widget>[
+          InkWell(
+            child: Container(
+              height: ScreenAdapter.height(68),
+              width: ScreenAdapter.width(80),
+              child: Row(
+                children: <Widget>[Text('搜索')],
+              ),
+            ),
+            onTap: () {
+              print('点击搜索');
+              _subHeaderChange(1);
+            },
+          )
+        ],
       ),
       endDrawer: Drawer(
         child: Container(
           child: Text('筛选功能'),
         ),
       ),
-      body: Stack(
+      body: this._hasData?Stack(
         children: <Widget>[this._productListWidget(), this._subHeaderWidget()],
+      ):Center(
+        child: EmptyDataWidget(),
       ),
     );
   }
