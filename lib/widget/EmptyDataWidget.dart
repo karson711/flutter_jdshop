@@ -10,7 +10,7 @@ class EmptyDataWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          // Icon(Icons.hourglass_empty),
+          Icon(Icons.hourglass_empty),
           Text('没有您要浏览的数据')
         ],
       ),
