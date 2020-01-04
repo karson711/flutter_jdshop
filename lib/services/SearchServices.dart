@@ -23,32 +23,37 @@ class SearchServices {
       });
       if (!hasData) {
         searchListData.add(keyWords);
+        print(searchListData);
         await Storage.setString('historySearchList', searchListData);
       }
     } catch (e) {
       List searchListData = [];
+      searchListData.add(keyWords);
+      print(searchListData);
       await Storage.setString('historySearchList', searchListData);
     }
   }
 
-  static Future<List> getHistoryListData() async {
+  static getHistoryListData() async {
     try {
       List searchListData =
           json.decode(await Storage.getString('historySearchList'));
+      print(searchListData);
       return searchListData;
     } catch (e) {
+      print('返回空数组');
       return [];
     }
   }
 
-  static removeHistoryData(keyWords) async{
+  static removeHistoryData(keyWords) async {
     List searchListData =
-          json.decode(await Storage.getString('historySearchList'));
+        json.decode(await Storage.getString('historySearchList'));
     searchListData.remove(keyWords);
     await Storage.setString('historySearchList', searchListData);
   }
 
-  static clearHistoryData() async{
+  static clearHistoryData() async {
     await Storage.remove('historySearchList');
   }
 }

@@ -1,4 +1,4 @@
-#Mon Dec 30 17:51:40 CST 2019
+#Sat Jan 04 11:37:48 CST 2020
 base.0=/Users/anfa/flutter_jdshop/build/app/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

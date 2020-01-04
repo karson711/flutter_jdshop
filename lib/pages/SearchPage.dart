@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_jdshop/services/ScreenAdapter.dart';
+import '../services/ScreenAdapter.dart';
+import '../services/SearchServices.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
@@ -24,17 +27,53 @@ class _SearchPageState extends State<SearchPage> {
     '儿童小电影',
     '唇彩唇蜜'
   ];
-  List _historyList = [
-    '超级秒杀',
-    '办公电脑',
-    '儿童小电影',
-    '唇彩唇蜜',
-    '办公电脑',
-    '儿童小电影',
-    '唇彩唇蜜'
-  ];
+  List _historyList = [];
 
   String _keyWords;
+
+  @override
+  void initState() {
+    super.initState();
+    this._getHistoryListData();
+  }
+
+  void _getHistoryListData() async {
+    List historyList = await SearchServices.getHistoryListData();
+    setState(() {
+      this._historyList = historyList;
+    });
+  }
+
+  Future<Void> _showAlertDialog(keyWords) async {
+    var result = await showDialog(
+        barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('提示信息!'),
+            content: Text('您确定要删除吗?'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('取消'),
+                onPressed: () {
+                  print("取消");
+                  Navigator.pop(context, 'cancel');
+                },
+              ),
+              FlatButton(
+                child: Text('确定'),
+                onPressed: () async {
+                  print("确定");
+                  //注意异步
+                  await SearchServices.removeHistoryData(keyWords);
+                  this._getHistoryListData();
+                  Navigator.pop(context, 'sure');
+                },
+              )
+            ],
+          );
+        });
+  }
 
   Widget _topTitleWidget(context, title) {
     return Container(
@@ -67,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  //历史记录
+  //历史记录列表
   Widget _historyRecordWidget() {
     return Container(
       child: Column(
@@ -76,12 +115,46 @@ class _SearchPageState extends State<SearchPage> {
             padding: EdgeInsets.all(ScreenAdapter.width(10)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[Text('$value'), Divider()],
+              children: <Widget>[
+                ListTile(
+                  title: Text('$value'),
+                  onLongPress: () {
+                    this._showAlertDialog('$value');
+                  },
+                ),
+                Divider()
+              ],
             ),
           );
         }).toList(),
       ),
     );
+  }
+
+  //历史记录和清空按钮
+  Widget _historyWidget() {
+    if (this._historyList.length > 0) {
+      return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            this._topTitleWidget(context, '历史记录'),
+            this._historyRecordWidget(),
+            SizedBox(height: ScreenAdapter.height(80)),
+            InkWell(
+              child: this._iconTitleWidget(Icon(Icons.delete), '清空历史记录'),
+              onTap: () async {
+                print('清空历史记录');
+                await SearchServices.clearHistoryData();
+                this._getHistoryListData();
+              },
+            )
+          ],
+        ),
+      );
+    } else {
+      return Text('');
+    }
   }
 
   //icon和文字组成的按钮
@@ -133,9 +206,10 @@ class _SearchPageState extends State<SearchPage> {
             ),
             onTap: () {
               if (this._keyWords != null) {
+                SearchServices.addHistoryData(this._keyWords);
                 Navigator.pushReplacementNamed(context, '/productList',
                     arguments: {"keyWords": this._keyWords});
-              }else{
+              } else {
                 print('请输入要搜索的内容');
               }
             },
@@ -150,15 +224,7 @@ class _SearchPageState extends State<SearchPage> {
             this._topTitleWidget(context, '热搜'),
             this._hotSearchWidget(),
             SizedBox(height: ScreenAdapter.height(20)),
-            this._topTitleWidget(context, '历史记录'),
-            this._historyRecordWidget(),
-            SizedBox(height: ScreenAdapter.height(80)),
-            InkWell(
-              child: this._iconTitleWidget(Icon(Icons.delete), '清空历史记录'),
-              onTap: () {
-                print('清空历史记录');
-              },
-            )
+            this._historyWidget()
           ],
         ),
       ),

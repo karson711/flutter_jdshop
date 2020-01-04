@@ -7,6 +7,7 @@ import '../services/ScreenAdapter.dart';
 import '../model/ProductModel.dart';
 import '../widget/LoadingWIdget.dart';
 import '../widget/EmptyDataWidget.dart';
+import '../services/SearchServices.dart';
 
 class ProductListPage extends StatefulWidget {
   Map arguments;
@@ -38,7 +39,7 @@ class _ProductListPageState extends State<ProductListPage> {
 
   //是否有数据
   bool _hasMore = true;
-  
+
   //是否有搜索数据
   bool _hasData = true;
 
@@ -65,8 +66,10 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   void initState() {
     super.initState();
-    this._cid = widget.arguments["cid"]==null?'':widget.arguments["cid"];
-    this._keyWords = widget.arguments["keyWords"]==null?'':widget.arguments["keyWords"];
+    this._cid = widget.arguments["cid"] == null ? '' : widget.arguments["cid"];
+    this._keyWords = widget.arguments["keyWords"] == null
+        ? ''
+        : widget.arguments["keyWords"];
     this._initKeywordsController.text = this._keyWords;
 
     this._getProductList();
@@ -94,10 +97,10 @@ class _ProductListPageState extends State<ProductListPage> {
 
     if (widget.arguments["keyWords"] == null) {
       api =
-        '${Config.domain}api/plist?cid=${widget.arguments["cid"]}&search=${this._keyWords}&page=${this._page}&sort=${this._sort}&pageSize=${this._pageSize}';
-    }else{
+          '${Config.domain}api/plist?cid=${widget.arguments["cid"]}&search=${this._keyWords}&page=${this._page}&sort=${this._sort}&pageSize=${this._pageSize}';
+    } else {
       api =
-        '${Config.domain}api/plist?search=${this._keyWords}&page=${this._page}&sort=${this._sort}&pageSize=${this._pageSize}';
+          '${Config.domain}api/plist?search=${this._keyWords}&page=${this._page}&sort=${this._sort}&pageSize=${this._pageSize}';
     }
     print(api);
     var result = await Dio().get(api);
@@ -109,7 +112,7 @@ class _ProductListPageState extends State<ProductListPage> {
       setState(() {
         this._hasData = false;
       });
-    }else{
+    } else {
       setState(() {
         this._hasData = true;
       });
@@ -138,9 +141,9 @@ class _ProductListPageState extends State<ProductListPage> {
       });
     } else {
       //回到顶部
-        if (this._produceList.length > 0) {
-          _scrollController.jumpTo(0);
-        }
+      if (this._produceList.length > 0) {
+        _scrollController.jumpTo(0);
+      }
       setState(() {
         this._selectHeaderId = id;
         this._sort =
@@ -149,7 +152,7 @@ class _ProductListPageState extends State<ProductListPage> {
         this._page = 1;
         //重置数据
         this._produceList = [];
-        
+
         //重置_hasMore
         this._hasMore = true;
         //重置_hasData
@@ -350,6 +353,7 @@ class _ProductListPageState extends State<ProductListPage> {
             ),
             onTap: () {
               print('点击搜索');
+              SearchServices.removeHistoryData(this._keyWords);
               _subHeaderChange(1);
             },
           )
@@ -360,11 +364,16 @@ class _ProductListPageState extends State<ProductListPage> {
           child: Text('筛选功能'),
         ),
       ),
-      body: this._hasData?Stack(
-        children: <Widget>[this._productListWidget(), this._subHeaderWidget()],
-      ):Center(
-        child: EmptyDataWidget(),
-      ),
+      body: this._hasData
+          ? Stack(
+              children: <Widget>[
+                this._productListWidget(),
+                this._subHeaderWidget()
+              ],
+            )
+          : Center(
+              child: EmptyDataWidget(),
+            ),
     );
   }
 }
