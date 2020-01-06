@@ -353,7 +353,7 @@ class _ProductListPageState extends State<ProductListPage> {
             ),
             onTap: () {
               print('点击搜索');
-              SearchServices.removeHistoryData(this._keyWords);
+              SearchServices.addHistoryData(this._keyWords);
               _subHeaderChange(1);
             },
           )

@@ -16,7 +16,7 @@ class SearchServices {
       */
     try {
       List searchListData =
-          json.decode(await Storage.getString('historySearchList'));
+          json.decode(await Storage.getString('searchList'));
       print(searchListData);
       var hasData = searchListData.any((v) {
         return v == keyWords;
@@ -24,20 +24,20 @@ class SearchServices {
       if (!hasData) {
         searchListData.add(keyWords);
         print(searchListData);
-        await Storage.setString('historySearchList', searchListData);
+        await Storage.setString('searchList', json.encode(searchListData));
       }
     } catch (e) {
       List searchListData = [];
       searchListData.add(keyWords);
       print(searchListData);
-      await Storage.setString('historySearchList', searchListData);
+      await Storage.setString('searchList', json.encode(searchListData));
     }
   }
 
   static getHistoryListData() async {
     try {
       List searchListData =
-          json.decode(await Storage.getString('historySearchList'));
+          json.decode(await Storage.getString('searchList'));
       print(searchListData);
       return searchListData;
     } catch (e) {
@@ -48,12 +48,12 @@ class SearchServices {
 
   static removeHistoryData(keyWords) async {
     List searchListData =
-        json.decode(await Storage.getString('historySearchList'));
+        json.decode(await Storage.getString('searchList'));
     searchListData.remove(keyWords);
-    await Storage.setString('historySearchList', searchListData);
+    await Storage.setString('searchList', json.encode(searchListData));
   }
 
   static clearHistoryData() async {
-    await Storage.remove('historySearchList');
+    await Storage.remove('searchList');
   }
 }

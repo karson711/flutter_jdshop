@@ -112,6 +112,7 @@ class _SearchPageState extends State<SearchPage> {
       child: Column(
         children: this._historyList.map((value) {
           return Container(
+            // height: ScreenAdapter.height(80),
             padding: EdgeInsets.all(ScreenAdapter.width(10)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
