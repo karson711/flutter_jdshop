@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../services/ScreenAdapter.dart';
+import '../../widget/JDBottimBtn.dart';
 
 class ProductDetailFristPage extends StatefulWidget {
   ProductDetailFristPage({Key key}) : super(key: key);
@@ -9,6 +10,126 @@ class ProductDetailFristPage extends StatefulWidget {
 }
 
 class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
+  Widget _screenConditionWidget() {
+    return Wrap(
+      children: <Widget>[
+        Container(
+          width: ScreenAdapter.width(100),
+          child: Padding(
+            padding: EdgeInsets.only(top: ScreenAdapter.height(24)),
+            child: Text(
+              '颜色: ',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: ScreenAdapter.size(32)),
+            ),
+          ),
+        ),
+        Container(
+          width: ScreenAdapter.width(610),
+          child: Wrap(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Chip(
+                  label: Text('白色'),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Chip(
+                  label: Text('白色'),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Chip(
+                  label: Text('白色'),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Chip(
+                  label: Text('白色'),
+                  padding: EdgeInsets.all(10),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Chip(
+                  label: Text('白色'),
+                  padding: EdgeInsets.all(10),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  void _attrBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return GestureDetector(
+            onTap: () {
+              return false;
+            },
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(ScreenAdapter.width(20)),
+                  child: ListView(
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          this._screenConditionWidget(),
+                          this._screenConditionWidget(),
+                          this._screenConditionWidget(),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  height: ScreenAdapter.height(90),
+                  width: ScreenAdapter.width(750),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: JDBottomBtn(
+                          color: Color.fromRGBO(253, 1, 0, 0.9),
+                          text: '加入购物车',
+                          callBack: () {
+                            print('加入购物车');
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: JDBottomBtn(
+                          color: Color.fromRGBO(255, 165, 0, 0.9),
+                          text: '立即购买',
+                          callBack: () {
+                            print('立即购买');
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
@@ -80,13 +201,18 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
             ),
           ),
           //筛选
-          Container(
-            height: ScreenAdapter.height(80),
-            child: Row(
-              children: <Widget>[
-                Text('已选: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('115，黑色，XL，1件')
-              ],
+          InkWell(
+            onTap: () {
+              this._attrBottomSheet();
+            },
+            child: Container(
+              height: ScreenAdapter.height(80),
+              child: Row(
+                children: <Widget>[
+                  Text('已选: ', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text('115，黑色，XL，1件')
+                ],
+              ),
             ),
           ),
           Divider(),
