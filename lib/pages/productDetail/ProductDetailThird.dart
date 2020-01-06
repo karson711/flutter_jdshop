@@ -11,7 +11,14 @@ class _ProductDetailThirdPageState extends State<ProductDetailThirdPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-       child: Text('评价'),
+      child: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('第$index行'),
+          );
+        },
+      ),
     );
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter_jdshop/services/ScreenAdapter.dart';
 import 'ProductDetailFrist.dart';
 import 'ProductDetailSecond.dart';
 import 'ProductDetailThird.dart';
+import '../../services/ScreenAdapter.dart';
+import '../../widget/JDBottimBtn.dart';
 
 class ProductDetailPage extends StatefulWidget {
   Map arguments;
@@ -22,6 +24,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenAdapter.init(context);
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -79,8 +83,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ],
                         ),
                       )
-                    ]
-                );
+                    ]);
               },
             )
           ],
@@ -96,11 +99,47 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             Positioned(
               width: ScreenAdapter.width(750),
-              height: ScreenAdapter.height(80),
+              height: ScreenAdapter.height(88),
               bottom: 0,
               child: Container(
-                color: Colors.red,
-                child: Text('底部栏'),
+                decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(color: Colors.black12, width: 1)),
+                    color: Colors.white),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: ScreenAdapter.height(10)),
+                      width: ScreenAdapter.width(200),
+                      child: Column(
+                        children: <Widget>[
+                          Icon(Icons.shopping_cart),
+                          Text('购物车')
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: JDBottomBtn(
+                        color: Color.fromRGBO(253, 1, 0, 0.9),
+                        text: '加入购物车',
+                        callBack: () {
+                          print('加入购物车');
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: JDBottomBtn(
+                        color: Color.fromRGBO(255, 165, 0, 0.9),
+                        text: '立即购买',
+                        callBack: () {
+                          print('立即购买');
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],
