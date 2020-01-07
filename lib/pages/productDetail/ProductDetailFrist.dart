@@ -1,80 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jdshop/config/Config.dart';
+import 'package:flutter_jdshop/model/ProductContentModel.dart';
 import '../../services/ScreenAdapter.dart';
 import '../../widget/JDBottimBtn.dart';
 
 class ProductDetailFristPage extends StatefulWidget {
-  ProductDetailFristPage({Key key}) : super(key: key);
+  final List _productContentList;
+
+  ProductDetailFristPage(this._productContentList, {Key key}) : super(key: key);
 
   @override
   _ProductDetailFristPageState createState() => _ProductDetailFristPageState();
 }
 
 class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
-  Widget _screenConditionWidget() {
-    return Wrap(
-      children: <Widget>[
-        Container(
-          width: ScreenAdapter.width(100),
-          child: Padding(
-            padding: EdgeInsets.only(top: ScreenAdapter.height(24)),
-            child: Text(
-              '颜色: ',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: ScreenAdapter.size(32)),
+  ProductContentItem _productContent;
+
+  List _attr = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    this._productContent = widget._productContentList[0];
+    this._attr = this._productContent.attr;
+    print('----------------');
+    print(this._attr.length);
+    print('----------------');
+  }
+
+  List<Widget> _getAttrItemWidget(attrItem) {
+
+    List<Widget> attrItemList = [];
+    attrItem.list.forEach((item) {
+      attrItemList.add(Container(
+        margin: EdgeInsets.all(10),
+        child: Chip(
+          label: Text('${item}'),
+          padding: EdgeInsets.all(10),
+        ),
+      ));
+    });
+    return attrItemList;
+  }
+
+  List<Widget> _getAttrWidget() {
+    List<Widget> attrList = [];
+    this._attr.forEach((attrItem) {
+      attrList.add(Wrap(
+        children: <Widget>[
+          Container(
+            width: ScreenAdapter.width(120),
+            child: Padding(
+              padding: EdgeInsets.only(top: ScreenAdapter.height(32)),
+              child: Text(
+                '${attrItem.cate}:',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
-        ),
-        Container(
-          width: ScreenAdapter.width(610),
-          child: Wrap(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Chip(
-                  label: Text('白色'),
-                  padding: EdgeInsets.all(10),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Chip(
-                  label: Text('白色'),
-                  padding: EdgeInsets.all(10),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Chip(
-                  label: Text('白色'),
-                  padding: EdgeInsets.all(10),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Chip(
-                  label: Text('白色'),
-                  padding: EdgeInsets.all(10),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Chip(
-                  label: Text('白色'),
-                  padding: EdgeInsets.all(10),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    );
+          Container(
+            width: ScreenAdapter.width(590),
+            child: Wrap(
+              children: this._getAttrItemWidget(attrItem),
+            ),
+          )
+        ],
+      ));
+    });
+    return attrList;
   }
 
   void _attrBottomSheet() {
     showModalBottomSheet(
         context: context,
         builder: (context) {
+
           return GestureDetector(
             onTap: () {
               return false;
@@ -86,11 +88,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
                   child: ListView(
                     children: <Widget>[
                       Column(
-                        children: <Widget>[
-                          this._screenConditionWidget(),
-                          this._screenConditionWidget(),
-                          this._screenConditionWidget(),
-                        ],
+                        children: this._getAttrWidget(),
                       )
                     ],
                   ),
@@ -134,21 +132,23 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
 
+    String pic = this._productContent.pic;
+    pic = Config.domain + pic.replaceAll('\\', '/');
+
     return Container(
       padding: EdgeInsets.all(ScreenAdapter.width(20)),
       child: ListView(
         children: <Widget>[
           //图片
           AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Image.network('https://www.itying.com/images/flutter/p1.jpg',
-                fit: BoxFit.cover),
+            aspectRatio: 16 / 12,
+            child: Image.network('${pic}', fit: BoxFit.cover),
           ),
           //标题
           Container(
             padding: EdgeInsets.only(top: 10),
             child: Text(
-              '联想ThinkPad 翼480（0VCD） 英特尔酷睿i5 14英寸轻薄窄边框笔记本电脑',
+              '${this._productContent.title}',
               maxLines: 2,
               style: TextStyle(
                   color: Colors.black87, fontSize: ScreenAdapter.size(36)),
@@ -157,7 +157,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
           Container(
             padding: EdgeInsets.only(top: 10),
             child: Text(
-              '震撼首发，15.9毫米全金属外观，4.9毫米轻薄窄边框，指纹电源按钮，杜比音效，2G独显，预装正版office软件',
+              '${this._productContent.subTitle}',
               maxLines: 2,
               style: TextStyle(
                   color: Colors.black54, fontSize: ScreenAdapter.size(28)),
@@ -174,7 +174,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
                   child: Row(
                     children: <Widget>[
                       Text('特价: '),
-                      Text('¥28',
+                      Text('¥${this._productContent.price}',
                           style: TextStyle(
                               color: Colors.red,
                               fontSize: ScreenAdapter.size(46)))
@@ -188,7 +188,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
                     children: <Widget>[
                       Text('原价: '),
                       Text(
-                        '¥50',
+                        '¥${this._productContent.oldPrice}',
                         style: TextStyle(
                             color: Colors.black38,
                             fontSize: ScreenAdapter.size(36),
@@ -203,6 +203,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage> {
           //筛选
           InkWell(
             onTap: () {
+              print(this._productContent.attr);
               this._attrBottomSheet();
             },
             child: Container(

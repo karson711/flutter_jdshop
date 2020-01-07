@@ -5,6 +5,12 @@ import 'ProductDetailSecond.dart';
 import 'ProductDetailThird.dart';
 import '../../services/ScreenAdapter.dart';
 import '../../widget/JDBottimBtn.dart';
+import '../../config/Config.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import '../../model/ProductContentModel.dart';
+import '../../widget/LoadingWidget.dart';
+
 
 class ProductDetailPage extends StatefulWidget {
   Map arguments;
@@ -15,11 +21,29 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  
+  List _productContentList=[];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.arguments["id"]);
+    this._getProductDetailData();
+  }
+
+  void _getProductDetailData() async{
+    var api = '${Config.domain}api/pcontent?id=${widget.arguments['id']}';
+    print(api);
+    var result = await Dio().get(api);
+    print(result);
+    var productContent = new ProductContentModel.fromJson(result.data);
+    print(productContent.result.pic);
+    List arr = [];
+    arr.add(productContent.result);
+    setState(() {
+      this._productContentList = arr;
+      print(this._productContentList);
+    });
   }
 
   @override
@@ -88,11 +112,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             )
           ],
         ),
-        body: Stack(
+        body: this._productContentList.length>0?Stack(
           children: <Widget>[
             TabBarView(
               children: <Widget>[
-                ProductDetailFristPage(),
+                ProductDetailFristPage(this._productContentList),
                 ProductDetailSecondPage(),
                 ProductDetailThirdPage()
               ],
@@ -143,7 +167,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             )
           ],
-        ),
+        ):LoadingWidget(),
       ),
     );
   }
