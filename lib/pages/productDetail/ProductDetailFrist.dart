@@ -3,6 +3,7 @@ import 'package:flutter_jdshop/config/Config.dart';
 import 'package:flutter_jdshop/model/ProductContentModel.dart';
 import '../../services/ScreenAdapter.dart';
 import '../../widget/JDBottimBtn.dart';
+import '../../services/EventBus.dart';
 
 class ProductDetailFristPage extends StatefulWidget {
   final List _productContentList;
@@ -20,6 +21,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
   List _attr = [];
   String _selectValue;
   bool get wantKeepAlive => true;
+  var actionEvent;
 
   @override
   void initState() {
@@ -29,6 +31,25 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
     this._attr = this._productContent.attr;
 
     this._initAttr();
+
+    //监听广播
+    //监听所有广播
+    // eventBus.on().listen((event) {
+    //   print(event);
+    //   this._attrBottomSheet();
+    // });
+
+    this.actionEvent = eventBus.on<ProductDetailEvent>().listen((str) {
+      print(str);
+      this._attrBottomSheet();
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    this.actionEvent.cancel(); //取消事件监听
   }
 
   //初始化Attr 格式化数据

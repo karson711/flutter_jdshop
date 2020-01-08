@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jdshop/provider/CartProvider.dart';
+import 'package:flutter_jdshop/providers/CartProvider.dart';
 import 'package:provider/provider.dart';
 import '../cart/CartNum.dart';
 import '../../services/ScreenAdapter.dart';

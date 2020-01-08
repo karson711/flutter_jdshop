@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import '../../model/ProductContentModel.dart';
 import '../../widget/LoadingWidget.dart';
-
+import '../../services/EventBus.dart';
 
 class ProductDetailPage extends StatefulWidget {
   Map arguments;
@@ -21,8 +21,7 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  
-  List _productContentList=[];
+  List _productContentList = [];
 
   @override
   void initState() {
@@ -31,7 +30,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     this._getProductDetailData();
   }
 
-  void _getProductDetailData() async{
+  void _getProductDetailData() async {
     var api = '${Config.domain}api/pcontent?id=${widget.arguments['id']}';
     print(api);
     var result = await Dio().get(api);
@@ -112,62 +111,78 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             )
           ],
         ),
-        body: this._productContentList.length>0?Stack(
-          children: <Widget>[
-            TabBarView(
-              children: <Widget>[
-                ProductDetailFristPage(this._productContentList),
-                ProductDetailSecondPage(this._productContentList),
-                ProductDetailThirdPage()
-              ],
-            ),
-            Positioned(
-              width: ScreenAdapter.width(750),
-              height: ScreenAdapter.height(88),
-              bottom: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border(
-                        top: BorderSide(color: Colors.black12, width: 1)),
-                    color: Colors.white),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: ScreenAdapter.height(10)),
-                      width: ScreenAdapter.width(200),
-                      child: Column(
+        body: this._productContentList.length > 0
+            ? Stack(
+                children: <Widget>[
+                  TabBarView(
+                    children: <Widget>[
+                      ProductDetailFristPage(this._productContentList),
+                      ProductDetailSecondPage(this._productContentList),
+                      ProductDetailThirdPage()
+                    ],
+                  ),
+                  Positioned(
+                    width: ScreenAdapter.width(750),
+                    height: ScreenAdapter.height(88),
+                    bottom: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              top: BorderSide(color: Colors.black12, width: 1)),
+                          color: Colors.white),
+                      child: Row(
                         children: <Widget>[
-                          Icon(Icons.shopping_cart),
-                          Text('购物车')
+                          Container(
+                            padding:
+                                EdgeInsets.only(top: ScreenAdapter.height(10)),
+                            width: ScreenAdapter.width(200),
+                            child: Column(
+                              children: <Widget>[
+                                Icon(Icons.shopping_cart),
+                                Text('购物车')
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: JDBottomBtn(
+                              color: Color.fromRGBO(253, 1, 0, 0.9),
+                              text: '加入购物车',
+                              callBack: () {
+                                if (this._productContentList[0].attr.length >
+                                    0) {
+                                  eventBus
+                                      .fire(new ProductDetailEvent('加入购物车'));
+                                } else {
+                                  print('加入购物车');
+                                }
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: JDBottomBtn(
+                              color: Color.fromRGBO(255, 165, 0, 0.9),
+                              text: '立即购买',
+                              callBack: () {
+                                
+                                if (this._productContentList[0].attr.length >
+                                    0) {
+                                  eventBus
+                                      .fire(new ProductDetailEvent('立即购买'));
+                                } else {
+                                  print('立即购买');
+                                }
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: JDBottomBtn(
-                        color: Color.fromRGBO(253, 1, 0, 0.9),
-                        text: '加入购物车',
-                        callBack: () {
-                          print('加入购物车');
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: JDBottomBtn(
-                        color: Color.fromRGBO(255, 165, 0, 0.9),
-                        text: '立即购买',
-                        callBack: () {
-                          print('立即购买');
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ):LoadingWidget(),
+                  )
+                ],
+              )
+            : LoadingWidget(),
       ),
     );
   }

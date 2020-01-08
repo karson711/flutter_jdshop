@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_jdshop/routers/router.dart' as prefix0;
 import 'package:provider/provider.dart';
-import 'package:flutter_jdshop/provider/Counter.dart';
-import 'package:flutter_jdshop/provider/CartProvider.dart';
+import 'package:flutter_jdshop/providers/CartProvider.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,7 +18,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => Counter()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(

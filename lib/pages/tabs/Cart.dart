@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/ScreenAdapter.dart';
 import 'package:provider/provider.dart';
-import '../../provider/CartProvider.dart';
+import '../../providers/CartProvider.dart';
 import '../cart/CartItem.dart';
 
 class CartPage extends StatefulWidget {

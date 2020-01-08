@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/services/ScreenAdapter.dart';
 import 'package:provider/provider.dart';
-import '../../provider/CartProvider.dart';
+import '../../providers/CartProvider.dart';
 
 class CartNum extends StatefulWidget {
   CartNum({Key key}) : super(key: key);
