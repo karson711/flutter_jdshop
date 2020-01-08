@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/Config.dart';
 import 'package:flutter_jdshop/model/ProductContentModel.dart';
+import '../cart/CartNum.dart';
 import '../../services/ScreenAdapter.dart';
 import '../../widget/JDBottimBtn.dart';
 import '../../services/EventBus.dart';
+import '../../services/CartServices.dart';
 
 class ProductDetailFristPage extends StatefulWidget {
   final List _productContentList;
@@ -69,9 +71,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
         }
       }
     }
-    // print(this._attr[0].attrList);
-    // print(this._attr[0].cate);
-    // print(this._attr[0].list);
+
     this._getSelectAttrValue();
   }
 
@@ -107,6 +107,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
 
     setState(() {
       this._selectValue = tempArr.join(',');
+      this._productContent.selectedAttr = this._selectValue;
     });
   }
 
@@ -175,6 +176,20 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
                         children: <Widget>[
                           Column(
                             children: this._getAttrWidget(setBottomState),
+                          ),
+                          Divider(),
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            height: ScreenAdapter.height(80),
+                            child: Row(
+                              children: <Widget>[
+                                Text("数量: ",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                SizedBox(width: 10),
+                                CartNum(this._productContent)
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -192,6 +207,9 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
                               text: '加入购物车',
                               callBack: () {
                                 print('加入购物车');
+                                CartServices.addCart(this._productContent);
+                                //关闭底部筛选属性
+                                Navigator.of(context).pop();
                               },
                             ),
                           ),

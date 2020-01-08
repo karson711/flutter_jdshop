@@ -55,7 +55,7 @@ class _CartItemState extends State<CartItem> {
                         alignment: Alignment.centerLeft,
                         child: Text('¥12',style: TextStyle(color: Colors.red),),
                       ),
-                      Align(alignment: Alignment.centerRight, child: CartNum())
+                      Align(alignment: Alignment.centerRight, child: CartNum(null))
                     ],
                   )
                 ],
