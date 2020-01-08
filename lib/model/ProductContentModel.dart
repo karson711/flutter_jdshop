@@ -100,12 +100,14 @@ class ProductContentItem {
 class Attr {
   String cate;
   List<String> list;
+  List attrList;
 
   Attr({this.cate, this.list});
 
   Attr.fromJson(Map<String, dynamic> json) {
     cate = json['cate'];
     list = json['list'].cast<String>();
+    attrList = [];
   }
 
   Map<String, dynamic> toJson() {

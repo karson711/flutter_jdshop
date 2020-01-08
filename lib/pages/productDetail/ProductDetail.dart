@@ -117,7 +117,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             TabBarView(
               children: <Widget>[
                 ProductDetailFristPage(this._productContentList),
-                ProductDetailSecondPage(),
+                ProductDetailSecondPage(this._productContentList),
                 ProductDetailThirdPage()
               ],
             ),
