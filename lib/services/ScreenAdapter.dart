@@ -13,6 +13,10 @@ class ScreenAdapter {
     return ScreenUtil.getInstance().setWidth(value);
   }
 
+  static fulWidth() {
+    return ScreenUtil.getInstance().setWidth(750);
+  }
+
   static getScreenHeight() {
     return ScreenUtil.screenHeightDp;
   }
