@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_jdshop/routers/router.dart' as prefix0;
+import 'package:provider/provider.dart';
+import 'package:flutter_jdshop/provider/Counter.dart';
+import 'package:flutter_jdshop/provider/CartProvider.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,12 +17,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      onGenerateRoute: prefix0.onGenerateRoute,
-      theme: ThemeData(
-        primaryColor: Colors.white
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Counter()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        onGenerateRoute: prefix0.onGenerateRoute,
+        theme: ThemeData(primaryColor: Colors.white),
       ),
     );
   }
