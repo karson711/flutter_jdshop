@@ -170,6 +170,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
           return StatefulBuilder(
             builder: (context, setBottomState) {
               return GestureDetector(
+                behavior:HitTestBehavior.opaque ,//点击事件不穿透
                 onTap: () {
                   return false;
                 },

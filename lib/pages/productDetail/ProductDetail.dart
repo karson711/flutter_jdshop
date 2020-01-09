@@ -121,6 +121,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ? Stack(
                 children: <Widget>[
                   TabBarView(
+                    physics: NeverScrollableScrollPhysics(), //禁止TabBarView滑动,
                     children: <Widget>[
                       ProductDetailFristPage(this._productContentList),
                       ProductDetailSecondPage(this._productContentList),
