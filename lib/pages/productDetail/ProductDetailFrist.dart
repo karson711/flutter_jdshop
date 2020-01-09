@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/config/Config.dart';
 import 'package:flutter_jdshop/model/ProductContentModel.dart';
-import '../cart/CartNum.dart';
+
 import '../../services/ScreenAdapter.dart';
 import '../../widget/JDBottimBtn.dart';
 import '../../services/EventBus.dart';
 import '../../services/CartServices.dart';
+import 'ProductNum.dart';
+import '../../providers/CartProvider.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailFristPage extends StatefulWidget {
   final List _productContentList;
@@ -24,6 +27,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
   String _selectValue;
   bool get wantKeepAlive => true;
   var actionEvent;
+  var cartProvider;
 
   @override
   void initState() {
@@ -187,7 +191,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 SizedBox(width: 10),
-                                CartNum(this._productContent)
+                                ProductNum(this._productContent)
                               ],
                             ),
                           )
@@ -205,11 +209,15 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
                             child: JDBottomBtn(
                               color: Color.fromRGBO(253, 1, 0, 0.9),
                               text: '加入购物车',
-                              callBack: () {
+                              callBack: () async {
                                 print('加入购物车');
                                 CartServices.addCart(this._productContent);
+
+                                //调用Provider 更新数据
+                                this.cartProvider.updateCartList();
                                 //关闭底部筛选属性
                                 Navigator.of(context).pop();
+                                
                               },
                             ),
                           ),
@@ -237,6 +245,8 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
+
+    this.cartProvider = Provider.of<CartProvider>(context);
 
     String pic = this._productContent.pic;
     pic = Config.domain + pic.replaceAll('\\', '/');

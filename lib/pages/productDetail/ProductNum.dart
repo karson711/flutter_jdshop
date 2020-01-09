@@ -4,34 +4,34 @@ import 'package:provider/provider.dart';
 import '../../providers/CartProvider.dart';
 import '../../model/ProductContentModel.dart';
 
-class CartNum extends StatefulWidget {
-  Map _itemData;
-  CartNum(this._itemData, {Key key}) : super(key: key);
+class ProductNum extends StatefulWidget {
+  ProductContentItem _productContent;
+
+  ProductNum(this._productContent,{Key key}) : super(key: key);
 
   @override
-  _CartNumState createState() => _CartNumState();
+  _ProductNumState createState() => _ProductNumState();
 }
 
-class _CartNumState extends State<CartNum> {
-  Map _itemData;
-  var cartProvider;
+class _ProductNumState extends State<ProductNum> {
+  ProductContentItem _productContent;
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
-    this._itemData = widget._itemData;
-    print('itemData----$this._itemData');
+    this._productContent = widget._productContent;
   }
 
   //左侧按钮
   Widget _leftBtn() {
     return InkWell(
       onTap: () {
-        if (this._itemData['count'] > 1) {
-          setState(() {
-            this._itemData['count'] = this._itemData['count'] - 1;
-          });
-          this.cartProvider.itemCountChange();
+        if (this._productContent != null) {
+          if (this._productContent.count > 1) {
+            setState(() {
+              this._productContent.count = this._productContent.count-1;
+            });
+          }
         }
       },
       child: Container(
@@ -42,15 +42,15 @@ class _CartNumState extends State<CartNum> {
       ),
     );
   }
-
   //右侧按钮
   Widget _rightBtn() {
     return InkWell(
       onTap: () {
-        setState(() {
-          this._itemData['count'] = this._itemData['count'] + 1;
-        });
-        this.cartProvider.itemCountChange();
+        if (this._productContent != null) {
+          setState(() {
+            this._productContent.count = this._productContent.count+1;
+          });
+        }
       },
       child: Container(
         height: ScreenAdapter.height(45),
@@ -60,11 +60,9 @@ class _CartNumState extends State<CartNum> {
       ),
     );
   }
-
   //中间文字
   Widget _centerText() {
-    int countNum =
-        this._itemData['count'] == null ? 1 : this._itemData['count'];
+    int countNum = this._productContent==null?1:this._productContent.count;
     return Container(
       height: ScreenAdapter.height(45),
       width: ScreenAdapter.width(70),
@@ -79,7 +77,7 @@ class _CartNumState extends State<CartNum> {
 
   @override
   Widget build(BuildContext context) {
-    this.cartProvider = Provider.of<CartProvider>(context);
+    var cartProvider = Provider.of<CartProvider>(context);
     ScreenAdapter.init(context);
 
     return Container(

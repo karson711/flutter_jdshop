@@ -13,9 +13,14 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var cartProvicer = Provider.of<CartProvider>(context);
-
+    print(cartProvicer.cartList);
     return Scaffold(
       appBar: AppBar(
         title: Text('购物车'),
@@ -28,9 +33,20 @@ class _CartPageState extends State<CartPage> {
       ),
       body: Stack(
         children: <Widget>[
-          ListView(
-            children: <Widget>[CartItem(), CartItem(), CartItem()],
-          ),
+          cartProvicer.cartList.length > 0
+              ? ListView(
+                  children: <Widget>[
+                    Column(
+                      children: cartProvicer.cartList.map((value) {
+                        return CartItem(value);
+                      }).toList(),
+                    ),
+                    SizedBox(height: ScreenAdapter.height(100))
+                  ],
+                )
+              : Center(
+                  child: Text('购物车空空如也...'),
+                ),
           Positioned(
             bottom: 0,
             width: ScreenAdapter.fulWidth(),
@@ -52,8 +68,11 @@ class _CartPageState extends State<CartPage> {
                           padding: EdgeInsets.only(left: 10),
                           width: ScreenAdapter.width(60),
                           child: Checkbox(
-                            value: true,
-                            onChanged: (val) {},
+                            value: cartProvicer.isCheckAll(),
+                            onChanged: (val) {
+                              //实现全选或者反选
+                              cartProvicer.checkAll(val);
+                            },
                             activeColor: Colors.pink,
                           ),
                         ),

@@ -5,13 +5,23 @@ import '../cart/CartNum.dart';
 import '../../services/ScreenAdapter.dart';
 
 class CartItem extends StatefulWidget {
-  CartItem({Key key}) : super(key: key);
+  Map _itemData;
+
+  CartItem(this._itemData, {Key key}) : super(key: key);
 
   @override
   _CartItemState createState() => _CartItemState();
 }
 
 class _CartItemState extends State<CartItem> {
+  Map _itemData;
+
+  @override
+  void initState() {
+    super.initState();
+    this._itemData = widget._itemData;
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
@@ -29,16 +39,17 @@ class _CartItemState extends State<CartItem> {
           Container(
             width: ScreenAdapter.width(60),
             child: Checkbox(
-              value: true,
+              value: this._itemData['checked'],
               activeColor: Colors.pink,
-              onChanged: (val) {},
+              onChanged: (val) {
+                this._itemData['checked'] = !this._itemData['checked'];
+                cartProvider.itemChange();
+              },
             ),
           ),
           Container(
             width: ScreenAdapter.width(160),
-            child: Image.network(
-                'https://www.itying.com/images/flutter/list2.jpg',
-                fit: BoxFit.cover),
+            child: Image.network('${this._itemData['pic']}', fit: BoxFit.cover),
           ),
           Expanded(
             flex: 1,
@@ -46,16 +57,21 @@ class _CartItemState extends State<CartItem> {
               padding: EdgeInsets.fromLTRB(10, 10, 10, 7),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('菲特旋转盖轻量杯不锈钢保温杯学生杯商务杯情侣杯保冷杯子便携水杯LHC4131WB(450Ml)白蓝',
-                      maxLines: 2),
+                  Text('${this._itemData['title']}', maxLines: 2),
                   Stack(
                     children: <Widget>[
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text('¥12',style: TextStyle(color: Colors.red),),
+                        child: Text(
+                          '¥${this._itemData['price']}',
+                          style: TextStyle(color: Colors.red),
+                        ),
                       ),
-                      Align(alignment: Alignment.centerRight, child: CartNum(null))
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: CartNum(this._itemData))
                     ],
                   )
                 ],

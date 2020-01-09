@@ -11,6 +11,9 @@ import 'package:dio/dio.dart';
 import '../../model/ProductContentModel.dart';
 import '../../widget/LoadingWidget.dart';
 import '../../services/EventBus.dart';
+import 'package:provider/provider.dart';
+import '../../providers/CartProvider.dart';
+import '../../services/CartServices.dart';
 
 class ProductDetailPage extends StatefulWidget {
   Map arguments;
@@ -48,7 +51,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-
+var cartProvider = Provider.of<CartProvider>(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -148,13 +151,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             child: JDBottomBtn(
                               color: Color.fromRGBO(253, 1, 0, 0.9),
                               text: '加入购物车',
-                              callBack: () {
+                              callBack: () async {
                                 if (this._productContentList[0].attr.length >
                                     0) {
                                   eventBus
                                       .fire(new ProductDetailEvent('加入购物车'));
                                 } else {
                                   print('加入购物车');
+                                  await CartServices.addCart(this._productContentList[0]);                         
+                              //调用Provider 更新数据
+                              cartProvider.updateCartList();
                                 }
                               },
                             ),
