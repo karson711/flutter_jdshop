@@ -372,7 +372,7 @@ class _ProductListPageState extends State<ProductListPage> {
               ],
             )
           : Center(
-              child: EmptyDataWidget(),
+              child: EmptyDataWidget(icon: Icon(Icons.error),str: '没有可浏览的数据'),
             ),
     );
   }

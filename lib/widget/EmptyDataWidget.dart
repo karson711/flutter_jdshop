@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EmptyDataWidget extends StatelessWidget {
-  const EmptyDataWidget({Key key}) : super(key: key);
+  final Icon icon;
+  final String str;
+  EmptyDataWidget({Key key,this.str='',this.icon= null}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,8 +12,8 @@ class EmptyDataWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.hourglass_empty),
-          Text('没有您要浏览的数据')
+          this.icon,
+          Text('${this.str}')
         ],
       ),
     );

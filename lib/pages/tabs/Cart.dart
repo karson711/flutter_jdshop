@@ -3,6 +3,7 @@ import '../../services/ScreenAdapter.dart';
 import 'package:provider/provider.dart';
 import '../../providers/CartProvider.dart';
 import '../cart/CartItem.dart';
+import '../../widget/EmptyDataWidget.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key key}) : super(key: key);
@@ -12,6 +13,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  bool _isEdit = false;
+
   @override
   void initState() {
     super.initState();
@@ -26,8 +29,12 @@ class _CartPageState extends State<CartPage> {
         title: Text('购物车'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share),
-            onPressed: () {},
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              setState(() {
+                this._isEdit = !this._isEdit;
+              });
+            },
           )
         ],
       ),
@@ -44,9 +51,7 @@ class _CartPageState extends State<CartPage> {
                     SizedBox(height: ScreenAdapter.height(100))
                   ],
                 )
-              : Center(
-                  child: Text('购物车空空如也...'),
-                ),
+              : EmptyDataWidget(icon: Icon(Icons.shopping_cart),str: '购物车空空如也...'),
           Positioned(
             bottom: 0,
             width: ScreenAdapter.fulWidth(),
@@ -77,7 +82,13 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         SizedBox(width: 5),
-                        Text('全选')
+                        Text('全选'),
+                        SizedBox(width: 20),
+                        this._isEdit ? Text('') : Text('总计:'),
+                        this._isEdit
+                            ? Text('')
+                            : Text('¥${cartProvicer.allPrice}',
+                                style: TextStyle(color: Colors.red)),
                       ],
                     ),
                   ),
@@ -87,10 +98,18 @@ class _CartPageState extends State<CartPage> {
                       height: ScreenAdapter.height(80),
                       width: ScreenAdapter.width(200),
                       child: RaisedButton(
-                        child:
-                            Text('结算', style: TextStyle(color: Colors.white)),
+                        child: Text(this._isEdit ? '删除' : '结算',
+                            style: TextStyle(color: Colors.white)),
                         color: Colors.red,
-                        onPressed: () {},
+                        onPressed: () {
+                          if (this._isEdit) {
+                            //删除
+                            cartProvicer.removeItem();
+                          } else {
+                            //结算
+
+                          }
+                        },
                       ),
                     ),
                   )

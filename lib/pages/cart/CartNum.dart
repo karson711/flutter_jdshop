@@ -16,13 +16,6 @@ class _CartNumState extends State<CartNum> {
   Map _itemData;
   var cartProvider;
 
-  @override
-  void initState() {
-    super.initState();
-    this._itemData = widget._itemData;
-    print('itemData----$this._itemData');
-  }
-
   //左侧按钮
   Widget _leftBtn() {
     return InkWell(
@@ -79,6 +72,7 @@ class _CartNumState extends State<CartNum> {
 
   @override
   Widget build(BuildContext context) {
+    this._itemData = widget._itemData;
     this.cartProvider = Provider.of<CartProvider>(context);
     ScreenAdapter.init(context);
 

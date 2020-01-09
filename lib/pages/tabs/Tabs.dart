@@ -5,10 +5,11 @@ import 'Home.dart';
 import 'User.dart';
 
 class Tabs extends StatefulWidget {
-  Tabs({Key key}) : super(key: key);
+  final int index;
+  Tabs({Key key, this.index = 0}) : super(key: key);
 
   @override
-  _TabsState createState() => _TabsState();
+  _TabsState createState() => _TabsState(this.index);
 }
 
 class _TabsState extends State<Tabs> {
@@ -21,6 +22,10 @@ class _TabsState extends State<Tabs> {
   ];
   PageController _pageController;
 
+  _TabsState(index) {
+    this._currentIndex = index;
+  }
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -43,7 +48,7 @@ class _TabsState extends State<Tabs> {
             this._currentIndex = index;
           });
         },
-        physics: NeverScrollableScrollPhysics(),//禁止pageView滑动
+        physics: NeverScrollableScrollPhysics(), //禁止pageView滑动
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: this._currentIndex,

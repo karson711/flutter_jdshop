@@ -9,6 +9,7 @@ import '../../services/CartServices.dart';
 import 'ProductNum.dart';
 import '../../providers/CartProvider.dart';
 import 'package:provider/provider.dart';
+import '../../services/JKToast.dart';
 
 class ProductDetailFristPage extends StatefulWidget {
   final List _productContentList;
@@ -211,13 +212,13 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
                               text: '加入购物车',
                               callBack: () async {
                                 print('加入购物车');
-                                CartServices.addCart(this._productContent);
+                                await CartServices.addCart(this._productContent);
 
                                 //调用Provider 更新数据
                                 this.cartProvider.updateCartList();
                                 //关闭底部筛选属性
                                 Navigator.of(context).pop();
-                                
+                                JKToast.sendMsg('加入购物车成功');
                               },
                             ),
                           ),

@@ -17,19 +17,17 @@ class _CartItemState extends State<CartItem> {
   Map _itemData;
 
   @override
-  void initState() {
-    super.initState();
-    this._itemData = widget._itemData;
-  }
-
-  @override
   Widget build(BuildContext context) {
+   
+   this._itemData = widget._itemData;
+
     ScreenAdapter.init(context);
     var cartProvider = Provider.of<CartProvider>(context);
 
+
     return Container(
       padding: EdgeInsets.all(5),
-      height: ScreenAdapter.height(180),
+      height: ScreenAdapter.height(220),
       width: ScreenAdapter.fulWidth(),
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(width: 1, color: Colors.black12)),
@@ -60,6 +58,7 @@ class _CartItemState extends State<CartItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text('${this._itemData['title']}', maxLines: 2),
+                  Text('${this._itemData['selectedAttr']}'),
                   Stack(
                     children: <Widget>[
                       Align(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/JKToast.dart';
 import 'package:flutter_jdshop/services/ScreenAdapter.dart';
 import 'ProductDetailFrist.dart';
 import 'ProductDetailSecond.dart';
@@ -14,6 +15,8 @@ import '../../services/EventBus.dart';
 import 'package:provider/provider.dart';
 import '../../providers/CartProvider.dart';
 import '../../services/CartServices.dart';
+import '../tabs/Tabs.dart';
+
 
 class ProductDetailPage extends StatefulWidget {
   Map arguments;
@@ -51,7 +54,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-var cartProvider = Provider.of<CartProvider>(context);
+    var cartProvider = Provider.of<CartProvider>(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -135,15 +138,25 @@ var cartProvider = Provider.of<CartProvider>(context);
                           color: Colors.white),
                       child: Row(
                         children: <Widget>[
-                          Container(
-                            padding:
-                                EdgeInsets.only(top: ScreenAdapter.height(10)),
-                            width: ScreenAdapter.width(200),
-                            child: Column(
-                              children: <Widget>[
-                                Icon(Icons.shopping_cart),
-                                Text('购物车')
-                              ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  new MaterialPageRoute(
+                                      builder: (context) => new Tabs(index: 2)),
+                                  (route) => route == null);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  top: ScreenAdapter.height(10)),
+                              width: ScreenAdapter.width(200),
+                              child: Column(
+                                children: <Widget>[
+                                  Icon(Icons.shopping_cart,size: ScreenAdapter.size(36)),
+                                  Text('购物车',style: TextStyle(
+                                    fontSize: ScreenAdapter.size(24)
+                                  ))
+                                ],
+                              ),
                             ),
                           ),
                           Expanded(
@@ -158,9 +171,11 @@ var cartProvider = Provider.of<CartProvider>(context);
                                       .fire(new ProductDetailEvent('加入购物车'));
                                 } else {
                                   print('加入购物车');
-                                  await CartServices.addCart(this._productContentList[0]);                         
-                              //调用Provider 更新数据
-                              cartProvider.updateCartList();
+                                  await CartServices.addCart(
+                                      this._productContentList[0]);
+                                  //调用Provider 更新数据
+                                  cartProvider.updateCartList();
+                                  JKToast.sendMsg('加入购物车成功');
                                 }
                               },
                             ),
@@ -171,11 +186,9 @@ var cartProvider = Provider.of<CartProvider>(context);
                               color: Color.fromRGBO(255, 165, 0, 0.9),
                               text: '立即购买',
                               callBack: () {
-                                
                                 if (this._productContentList[0].attr.length >
                                     0) {
-                                  eventBus
-                                      .fire(new ProductDetailEvent('立即购买'));
+                                  eventBus.fire(new ProductDetailEvent('立即购买'));
                                 } else {
                                   print('立即购买');
                                 }
