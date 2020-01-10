@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import '../../providers/CartProvider.dart';
 import '../cart/CartItem.dart';
 import '../../widget/EmptyDataWidget.dart';
+import '../../services/JKToast.dart';
+import '../../services/CartServices.dart';
+import '../../services/UserServices.dart';
+import '../../providers/CheckOutProvider.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key key}) : super(key: key);
@@ -14,15 +18,39 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   bool _isEdit = false;
+  var checkOutProvider;
 
   @override
   void initState() {
     super.initState();
   }
 
+  //去结算
+  doCheckOut() async {
+    //1、获取购物车选中的数据
+    List checkOutData = await CartServices.getCheckOutData();
+    //2、保存购物车选中的数据
+    this.checkOutProvider.changeCheckOutListData(checkOutData);
+    //3、购物车有没有选中的数据
+    if (checkOutData.length > 0) {
+      //4、判断用户有没有登录
+      var loginState = await UserServices.getUserLoginState();
+      if (loginState) {
+        Navigator.pushNamed(context, '/checkOut');
+      } else {
+        JKToast.sendMsg('您还没有登录，请登录以后再去结算');
+        Navigator.pushNamed(context, '/login');
+      }
+    } else {
+      JKToast.sendMsg('购物车没有选中的数据');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var cartProvicer = Provider.of<CartProvider>(context);
+    checkOutProvider = Provider.of<CheckOutProvider>(context);
+
     print(cartProvicer.cartList);
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +79,8 @@ class _CartPageState extends State<CartPage> {
                     SizedBox(height: ScreenAdapter.height(100))
                   ],
                 )
-              : EmptyDataWidget(icon: Icon(Icons.shopping_cart),str: '购物车空空如也...'),
+              : EmptyDataWidget(
+                  icon: Icon(Icons.shopping_cart), str: '购物车空空如也...'),
           Positioned(
             bottom: 0,
             width: ScreenAdapter.fulWidth(),
@@ -107,7 +136,7 @@ class _CartPageState extends State<CartPage> {
                             cartProvicer.removeItem();
                           } else {
                             //结算
-
+                            this.doCheckOut();
                           }
                         },
                       ),

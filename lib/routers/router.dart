@@ -8,6 +8,7 @@ import '../login/Login.dart';
 import '../login/RegisterFirst.dart';
 import '../login/RegisterSecond.dart';
 import '../login/RegisterThird.dart';
+import '../pages/productDetail/CheckOut.dart';
 
 //配置路由
 final routes = {
@@ -19,6 +20,7 @@ final routes = {
   '/productList': (context,{arguments}) => ProductListPage(arguments:arguments),
   '/search': (context) => SearchPage(),
   '/productDetail': (context,{arguments}) => ProductDetailPage(arguments:arguments),
+  '/checkOut': (context) => CheckOutPage(),
 };
 
 //固定写法

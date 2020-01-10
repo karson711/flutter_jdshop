@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_jdshop/routers/router.dart' as prefix0;
 import 'package:provider/provider.dart';
 import 'package:flutter_jdshop/providers/CartProvider.dart';
+import 'package:flutter_jdshop/providers/CheckOutProvider.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,6 +20,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => CheckOutProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
