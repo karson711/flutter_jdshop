@@ -4,12 +4,14 @@ import 'package:flutter_jdshop/services/ScreenAdapter.dart';
 class JDBottomBtn extends StatelessWidget {
   final String text;
   final Color color;
+  final double height;
   final Object callBack;
 
   JDBottomBtn(
       {Key key,
       this.text = '按钮',
       this.color = Colors.blue,
+      this.height = 68,
       this.callBack = null})
       : super(key: key);
 
@@ -18,7 +20,7 @@ class JDBottomBtn extends StatelessWidget {
     return InkWell(
       onTap: this.callBack,
       child: Container(
-        height: ScreenAdapter.height(68),
+        height: ScreenAdapter.height(this.height),
         width: double.infinity,
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.all(5),

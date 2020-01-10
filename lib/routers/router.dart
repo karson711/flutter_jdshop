@@ -4,9 +4,18 @@ import '../pages/ProductList.dart';
 import '../pages/SearchPage.dart';
 import '../pages/productDetail/ProductDetail.dart';
 
+import '../login/Login.dart';
+import '../login/RegisterFirst.dart';
+import '../login/RegisterSecond.dart';
+import '../login/RegisterThird.dart';
+
 //配置路由
 final routes = {
   '/': (context) => Tabs(),
+  '/login': (context) => LoginPage(),
+  '/registerFirst': (context) => RegisterFirstPage(),
+  '/registerSecond': (context) => RegisterSecondPage(),
+  '/registerThird': (context) => RegisterThirdPage(),
   '/productList': (context,{arguments}) => ProductListPage(arguments:arguments),
   '/search': (context) => SearchPage(),
   '/productDetail': (context,{arguments}) => ProductDetailPage(arguments:arguments),

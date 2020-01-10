@@ -62,15 +62,14 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
   //初始化Attr 格式化数据
   void _initAttr() {
     for (var i = 0; i < this._attr.length; i++) {
+      this._attr[i].attrList.clear();
       for (var j = 0; j < this._attr[i].list.length; j++) {
         if (j == 0) {
-          this
-              ._attr[i]
+          this._attr[i]
               .attrList
               .add({"title": this._attr[i].list[j], "checked": true});
         } else {
-          this
-              ._attr[i]
+          this._attr[i]
               .attrList
               .add({"title": this._attr[i].list[j], "checked": false});
         }
@@ -170,7 +169,7 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
           return StatefulBuilder(
             builder: (context, setBottomState) {
               return GestureDetector(
-                behavior:HitTestBehavior.opaque ,//点击事件不穿透
+                behavior: HitTestBehavior.opaque, //点击事件不穿透
                 onTap: () {
                   return false;
                 },
@@ -213,7 +212,8 @@ class _ProductDetailFristPageState extends State<ProductDetailFristPage>
                               text: '加入购物车',
                               callBack: () async {
                                 print('加入购物车');
-                                await CartServices.addCart(this._productContent);
+                                await CartServices.addCart(
+                                    this._productContent);
 
                                 //调用Provider 更新数据
                                 this.cartProvider.updateCartList();
