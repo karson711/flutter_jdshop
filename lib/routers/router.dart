@@ -10,6 +10,10 @@ import '../login/RegisterSecond.dart';
 import '../login/RegisterThird.dart';
 import '../pages/productDetail/CheckOut.dart';
 
+import '../pages/address/AddressAdd.dart';
+import '../pages/address/AddressEdit.dart';
+import '../pages/address/AddressList.dart';
+
 //配置路由
 final routes = {
   '/': (context) => Tabs(),
@@ -21,6 +25,9 @@ final routes = {
   '/search': (context) => SearchPage(),
   '/productDetail': (context,{arguments}) => ProductDetailPage(arguments:arguments),
   '/checkOut': (context) => CheckOutPage(),
+  '/addressAdd': (context) => AddressAddPage(),
+  '/addressEdit': (context) => AddressEditPage(),
+  '/addressList': (context) => AddressListPage(),
 };
 
 //固定写法
