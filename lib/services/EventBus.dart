@@ -25,3 +25,11 @@ class AddressEvent{
     this.str=str;
   }
 }
+
+//结算页面广播
+class CheckOutEvent{
+  String str;
+  CheckOutEvent(String str){
+    this.str=str;
+  }
+}

@@ -27,6 +27,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
   dispose() {
     super.dispose();
     eventBus.fire(new AddressEvent('增加成功...'));
+    eventBus.fire(new CheckOutEvent('改收货地址成功...'));
   }
 
   @override
@@ -125,6 +126,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
                     "address": this.address,
                     "sign": sign
                   });
+                  print(result);
                   Navigator.pop(context);
                 },
               )
