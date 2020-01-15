@@ -26,7 +26,7 @@ final routes = {
   '/productDetail': (context,{arguments}) => ProductDetailPage(arguments:arguments),
   '/checkOut': (context) => CheckOutPage(),
   '/addressAdd': (context) => AddressAddPage(),
-  '/addressEdit': (context) => AddressEditPage(),
+  '/addressEdit': (context,{arguments}) => AddressEditPage(arguments:arguments),
   '/addressList': (context) => AddressListPage(),
 };
 

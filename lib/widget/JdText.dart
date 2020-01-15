@@ -9,12 +9,14 @@ class JdText extends StatelessWidget {
   final Object onChanged;
   final double height;
   final int maxLines;
-  JdText({Key key,this.text="输入内容",this.password=false,this.onChanged = null,this.height=68,this.maxLines=1}) : super(key: key);
+  final TextEditingController controller;
+  JdText({Key key,this.text="输入内容",this.password=false,this.onChanged = null,this.height=68,this.maxLines=1,this.controller=null}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: TextField(        
+      child: TextField(       
+        controller: this.controller, 
         maxLines: this.maxLines,
         obscureText: this.password,
         decoration: InputDecoration(
