@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_jdshop/services/JKToast.dart';
 import '../../widget/JDBottimBtn.dart';
+import '../tabs/Tabs.dart';
 
 class PayPage extends StatefulWidget {
   PayPage({Key key}) : super(key: key);
@@ -65,7 +67,11 @@ class _PayPageState extends State<PayPage> {
             color: Colors.red,
             height: 74,
             callBack: () {
-              print('支付1111');
+              JKToast.sendMsg('支付成功');
+              //返回到根
+              Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(builder: (context) => new Tabs()),
+                  (route) => route == null);
             },
           )
         ],

@@ -15,6 +15,9 @@ import '../pages/address/AddressEdit.dart';
 import '../pages/address/AddressList.dart';
 import '../pages/productDetail/Pay.dart';
 
+import '../pages/order/Order.dart';
+import '../pages/order/OrderInfo.dart';
+
 //配置路由
 final routes = {
   '/': (context) => Tabs(),
@@ -30,6 +33,8 @@ final routes = {
   '/addressEdit': (context,{arguments}) => AddressEditPage(arguments:arguments),
   '/addressList': (context) => AddressListPage(),
   '/pay': (context) => PayPage(),
+  '/order': (context) => OrderPage(),
+  '/orderinfo': (context) => OrderInfoPage(),
 };
 
 //固定写法
