@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../../services/ScreenAdapter.dart';
 import 'package:provider/provider.dart';
 import '../../providers/CheckOutProvider.dart';
+import '../../providers/CartProvider.dart';
 import '../../services/SignServices.dart';
 import '../../services/EventBus.dart';
 import '../../config/Config.dart';
 import '../../services/UserServices.dart';
 import 'package:dio/dio.dart';
+import '../../services/CheckOutServices.dart';
+import '../../services/JKToast.dart';
 
 class CheckOutPage extends StatefulWidget {
   CheckOutPage({Key key}) : super(key: key);
@@ -15,14 +20,13 @@ class CheckOutPage extends StatefulWidget {
 }
 
 class _CheckOutPageState extends State<CheckOutPage> {
-
-  List _addressList=[];
+  List _addressList = [];
   @override
   void initState() {
     super.initState();
     this._getDefaultAddress();
 
-     //监听广播
+    //监听广播
     eventBus.on<CheckOutEvent>().listen((event) {
       print(event.str);
       this._getDefaultAddress();
@@ -33,23 +37,18 @@ class _CheckOutPageState extends State<CheckOutPage> {
     List userinfo = await UserServices.getUserInfo();
 
     // print('1234');
-    var tempJson = {
-      "uid": userinfo[0]["_id"],     
-      "salt": userinfo[0]["salt"]
-    };
+    var tempJson = {"uid": userinfo[0]["_id"], "salt": userinfo[0]["salt"]};
 
     var sign = SignServices.getSign(tempJson);
-   
-    var api = '${Config.domain}api/oneAddressList?uid=${userinfo[0]["_id"]}&sign=${sign}';
+
+    var api =
+        '${Config.domain}api/oneAddressList?uid=${userinfo[0]["_id"]}&sign=${sign}';
     var response = await Dio().get(api);
 
     print(response);
     setState(() {
-
-        this._addressList=response.data['result'];
+      this._addressList = response.data['result'];
     });
-
-
   }
 
   Widget _checkOutItem(item) {
@@ -93,6 +92,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
     var checkOutProvider = Provider.of<CheckOutProvider>(context);
+    var cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -107,29 +107,32 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 10),
-                    this._addressList.length > 0?ListTile(
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("${this._addressList[0]["name"]}  ${this._addressList[0]["phone"]}"),
-                          SizedBox(height: 10),
-                          Text("${this._addressList[0]["address"]}"),
-                        ],
-                      ),
-                      trailing: Icon(Icons.navigate_next),
-                      onTap: (){
-                        Navigator.pushNamed(context, '/addressList');
-                      },
-                    ):ListTile(
-                      leading: Icon(Icons.add_location),
-                      title: Center(
-                        child: Text("请添加收货地址"),
-                      ),
-                      trailing: Icon(Icons.navigate_next),
-                      onTap: (){
-                        Navigator.pushNamed(context, '/addressAdd');
-                      },
-                    ),
+                    this._addressList.length > 0
+                        ? ListTile(
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                    "${this._addressList[0]["name"]}  ${this._addressList[0]["phone"]}"),
+                                SizedBox(height: 10),
+                                Text("${this._addressList[0]["address"]}"),
+                              ],
+                            ),
+                            trailing: Icon(Icons.navigate_next),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/addressList');
+                            },
+                          )
+                        : ListTile(
+                            leading: Icon(Icons.add_location),
+                            title: Center(
+                              child: Text("请添加收货地址"),
+                            ),
+                            trailing: Icon(Icons.navigate_next),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/addressAdd');
+                            },
+                          ),
                     SizedBox(height: 10),
                   ],
                 ),
@@ -186,7 +189,52 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       child:
                           Text('立即下单', style: TextStyle(color: Colors.white)),
                       color: Colors.red,
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (this._addressList.length > 0) {
+                          List userinfo = await UserServices.getUserInfo();
+                          //注意：商品总价保留一位小数
+                          var allPrice = CheckOutServices.getAllPrice(
+                                  checkOutProvider.checkOutListData)
+                              .toStringAsFixed(1);
+
+                          //获取签名
+                          var sign = SignServices.getSign({
+                            "uid": userinfo[0]["_id"],
+                            "phone": this._addressList[0]["phone"],
+                            "address": this._addressList[0]["address"],
+                            "name": this._addressList[0]["name"],
+                            "all_price": allPrice,
+                            "products":
+                                json.encode(checkOutProvider.checkOutListData),
+                            "salt": userinfo[0]["salt"] //私钥
+                          });
+                          //请求接口
+                          var api = '${Config.domain}api/doOrder';
+                          var response = await Dio().post(api, data: {
+                            "uid": userinfo[0]["_id"],
+                            "phone": this._addressList[0]["phone"],
+                            "address": this._addressList[0]["address"],
+                            "name": this._addressList[0]["name"],
+                            "all_price": allPrice,
+                            "products":
+                                json.encode(checkOutProvider.checkOutListData),
+                            "sign": sign
+                          });
+                          print(response);
+                          if (response.data["success"]) {
+                            //删除购物车选中的商品数据
+                            await CheckOutServices.removeUnSelectedCartItem();
+
+                            //调用CartProvider更新购物车数据
+                            cartProvider.updateCartList();
+
+                            //跳转到支付页面
+                            Navigator.pushNamed(context, '/pay');
+                          }
+                        } else {
+                          JKToast.sendMsg('请填写收货地址');
+                        }
+                      },
                     ),
                   )
                 ],

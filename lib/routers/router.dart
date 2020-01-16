@@ -8,11 +8,12 @@ import '../login/Login.dart';
 import '../login/RegisterFirst.dart';
 import '../login/RegisterSecond.dart';
 import '../login/RegisterThird.dart';
-import '../pages/productDetail/CheckOut.dart';
 
+import '../pages/productDetail/CheckOut.dart';
 import '../pages/address/AddressAdd.dart';
 import '../pages/address/AddressEdit.dart';
 import '../pages/address/AddressList.dart';
+import '../pages/productDetail/Pay.dart';
 
 //配置路由
 final routes = {
@@ -28,6 +29,7 @@ final routes = {
   '/addressAdd': (context) => AddressAddPage(),
   '/addressEdit': (context,{arguments}) => AddressEditPage(arguments:arguments),
   '/addressList': (context) => AddressListPage(),
+  '/pay': (context) => PayPage(),
 };
 
 //固定写法
