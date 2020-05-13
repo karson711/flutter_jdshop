@@ -5,10 +5,12 @@ INJECTED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xm
 INJECTED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml:1:1-34:12
 INJECTED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml:1:1-34:12
 MERGED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml:1:1-34:12
+MERGED from [:fluttertoast] /Users/anfa/flutter_jdshop/build/fluttertoast/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:flutter_inappwebview] /Users/anfa/flutter_jdshop/build/flutter_inappwebview/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-18:12
 MERGED from [:shared_preferences] /Users/anfa/flutter_jdshop/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences_web] /Users/anfa/flutter_jdshop/build/shared_preferences_web/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:shared_preferences_macos] /Users/anfa/flutter_jdshop/build/shared_preferences_macos/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:city_pickers] /Users/anfa/flutter_jdshop/build/city_pickers/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.appcompat:appcompat:1.0.0] /Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.fragment:fragment:1.0.0] /Users/anfa/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0.aar/db1b4245ff54081ba985575828552695/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.webkit:webkit:1.0.0] /Users/anfa/.gradle/caches/transforms-1/files-1.1/webkit-1.0.0.aar/00f8f611b6cb887dbc538299bee6b75b/AndroidManifest.xml:17:1-22:12
@@ -65,7 +67,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /Users/anfa
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.0.0] /Users/anfa/.gradle/caches/transforms-1/files-1.1/core-1.0.0.aar/2792b1aa528a946ceca93d8a17d9181b/AndroidManifest.xml:22:18-86
 	android:label
-		ADDED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml:12:9-39
+		ADDED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml:12:9-32
 	android:icon
 		ADDED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml:13:9-43
 	android:usesCleartextTraffic
@@ -106,6 +108,8 @@ uses-sdk
 INJECTED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/anfa/flutter_jdshop/android/app/src/main/AndroidManifest.xml
+MERGED from [:fluttertoast] /Users/anfa/flutter_jdshop/build/fluttertoast/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:fluttertoast] /Users/anfa/flutter_jdshop/build/fluttertoast/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_inappwebview] /Users/anfa/flutter_jdshop/build/flutter_inappwebview/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_inappwebview] /Users/anfa/flutter_jdshop/build/flutter_inappwebview/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] /Users/anfa/flutter_jdshop/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
@@ -114,6 +118,8 @@ MERGED from [:shared_preferences_web] /Users/anfa/flutter_jdshop/build/shared_pr
 MERGED from [:shared_preferences_web] /Users/anfa/flutter_jdshop/build/shared_preferences_web/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences_macos] /Users/anfa/flutter_jdshop/build/shared_preferences_macos/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences_macos] /Users/anfa/flutter_jdshop/build/shared_preferences_macos/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:city_pickers] /Users/anfa/flutter_jdshop/build/city_pickers/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:city_pickers] /Users/anfa/flutter_jdshop/build/city_pickers/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [androidx.appcompat:appcompat:1.0.0] /Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.0.0] /Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/AndroidManifest.xml:20:5-44
 MERGED from [androidx.fragment:fragment:1.0.0] /Users/anfa/.gradle/caches/transforms-1/files-1.1/fragment-1.0.0.aar/db1b4245ff54081ba985575828552695/AndroidManifest.xml:20:5-44

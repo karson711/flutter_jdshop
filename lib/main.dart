@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
+        //routes优先执行，所以必须注释掉，否则onGenerateRoute方法不会调用
         onGenerateRoute: prefix0.onGenerateRoute,
         theme: ThemeData(primaryColor: Colors.white),
       ),

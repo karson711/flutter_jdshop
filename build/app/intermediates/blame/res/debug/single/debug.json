@@ -184,6 +184,10 @@
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-xxxhdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png"
     },
     {
+        "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/mipmap-hdpi_launch_image.png.flat",
+        "source": "/Users/anfa/flutter_jdshop/android/app/src/main/res/mipmap-hdpi/launch_image.png"
+    },
+    {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable-ldrtl-xxhdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-ldrtl-xxhdpi-v17/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
@@ -496,6 +500,10 @@
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-hdpi-v4/abc_list_selector_disabled_holo_light.9.png"
     },
     {
+        "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable_toast_bg.xml.flat",
+        "source": "/Users/anfa/flutter_jdshop/build/fluttertoast/intermediates/packaged_res/debug/drawable/toast_bg.xml"
+    },
+    {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-hdpi-v4/abc_popup_background_mtrl_mult.9.png"
     },
@@ -562,6 +570,10 @@
     {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable-mdpi-v4_abc_menu_hardkey_panel_mtrl_mult.9.png.flat",
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-mdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
+    },
+    {
+        "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/layout_toast_custom.xml.flat",
+        "source": "/Users/anfa/flutter_jdshop/build/fluttertoast/intermediates/packaged_res/debug/layout/toast_custom.xml"
     },
     {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
@@ -1104,6 +1116,10 @@
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-xxhdpi-v4/abc_list_pressed_holo_light.9.png"
     },
     {
+        "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/mipmap-mdpi_launch_image.png.flat",
+        "source": "/Users/anfa/flutter_jdshop/android/app/src/main/res/mipmap-mdpi/launch_image.png"
+    },
+    {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable_abc_item_background_holo_dark.xml.flat",
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable/abc_item_background_holo_dark.xml"
     },
@@ -1388,6 +1404,10 @@
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-mdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/mipmap-xhdpi_launch_image.png.flat",
+        "source": "/Users/anfa/flutter_jdshop/android/app/src/main/res/mipmap-xhdpi/launch_image.png"
+    },
+    {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_pressed_holo_dark.9.png.flat",
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/drawable-xhdpi-v4/abc_list_pressed_holo_dark.9.png"
     },
@@ -1562,6 +1582,10 @@
     {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/layout_abc_action_menu_item_layout.xml.flat",
         "source": "/Users/anfa/.gradle/caches/transforms-1/files-1.1/appcompat-1.0.0.aar/127a98a59e4e712f56befbb57637796a/res/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/mipmap-xxhdpi_launch_image.png.flat",
+        "source": "/Users/anfa/flutter_jdshop/android/app/src/main/res/mipmap-xxhdpi/launch_image.png"
     },
     {
         "merged": "/Users/anfa/flutter_jdshop/build/app/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_longpressed_holo.9.png.flat",
